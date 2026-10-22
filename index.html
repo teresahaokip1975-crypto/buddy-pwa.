@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Buddy — your personal AI assistant workspace.">
+  <title>Buddy — AI Assistant</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/buddy-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="drawer" class="drawer" aria-label="Main navigation">
+      <div class="drawer-head">
+        <div class="brand-mark">B</div>
+        <div><div class="brand-name">Buddy</div><div class="muted tiny">Your AI workspace</div></div>
+        <button id="closeDrawer" class="icon-btn close-drawer" aria-label="Close menu">×</button>
+      </div>
+      <button id="newChatBtn" class="primary wide">＋ New chat</button>
+      <div class="nav-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="chat">◉ <span>Chat</span></button>
+      <button class="nav-item" data-view="projects">▦ <span>Projects</span></button>
+      <button class="nav-item" data-view="library">▤ <span>Local library</span></button>
+      <button class="nav-item" data-view="settings">⚙ <span>Settings</span></button>
+      <div class="nav-label row-between"><span>RECENT CHATS</span><span id="chatCount" class="tiny muted">0</span></div>
+      <div id="recentChats" class="recent-chats"></div>
+      <div class="drawer-foot">
+        <div class="avatar">B</div>
+        <div class="profile-text"><strong>Boss</strong><span class="muted tiny">Stored on this device</span></div>
+        <button id="exportBtn" class="icon-btn" title="Export your data" aria-label="Export your data">⇩</button>
+      </div>
+    </aside>
+    <div id="scrim" class="scrim"></div>
+    <main class="main">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn" aria-label="Open menu">☰</button>
+        <div class="top-title"><span class="brand-dot"></span><strong id="headerTitle">Buddy</strong><span class="beta">LOCAL PREVIEW</span></div>
+        <button id="themeQuickBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">☼</button>
+      </header>
+
+      <section id="chatView" class="view active">
+        <div class="welcome">
+          <div class="hero-icon">✦</div>
+          <p class="eyebrow">YOUR PERSONAL ASSISTANT</p>
+          <h1>What are we working on, Boss?</h1>
+          <p class="welcome-copy">Buddy’s first version is ready for your ideas. This local preview saves chats on this device. Connect an AI service later to enable real AI replies.</p>
+          <div class="suggestions">
+            <button class="suggestion" data-prompt="Help me plan a small online business using free tools.">↗ Plan an online business</button>
+            <button class="suggestion" data-prompt="Help me build a simple website step by step.">⌘ Build a website</button>
+            <button class="suggestion" data-prompt="Give me 5 short-form video ideas for beginners.">▷ Create video ideas</button>
+            <button class="suggestion" data-prompt="Help me organize my goals for this week.">☷ Organize my goals</button>
+          </div>
+        </div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <div class="composer-wrap">
+          <div id="offlineNotice" class="notice">Demo mode: messages stay on this device; AI replies are not connected yet.</div>
+          <form id="composer" class="composer">
+            <textarea id="messageInput" rows="1" placeholder="Message Buddy…" aria-label="Message Buddy"></textarea>
+            <button class="send-btn" type="submit" aria-label="Send message">↑</button>
+          </form>
+          <div class="composer-meta">Enter to send · Shift + Enter for a new line</div>
+        </div>
+      </section>
+
+      <section id="projectsView" class="view page-view">
+        <div class="page-heading"><p class="eyebrow">YOUR WORKSPACE</p><h1>Projects</h1><p>Group related work and return to it later.</p></div>
+        <form id="projectForm" class="inline-form"><input id="projectName" placeholder="New project name" maxlength="80" required><button class="primary" type="submit">Add project</button></form>
+        <div id="projectsList" class="cards-list"></div>
+      </section>
+
+      <section id="libraryView" class="view page-view">
+        <div class="page-heading"><p class="eyebrow">YOUR DATA</p><h1>Local library</h1><p>Everything here is stored in this browser on this device.</p></div>
+        <div class="setting-card">
+          <h3>Data tools</h3><p>Export a backup before clearing browser data or changing devices.</p>
+          <div class="button-row"><button id="libraryExport" class="secondary">Export backup</button><button id="importBtn" class="secondary">Import backup</button><input id="importFile" type="file" accept="application/json" hidden></div>
+        </div>
+        <div class="setting-card"><h3>Storage note</h3><p>Local browser storage is not a cloud backup. Clearing browser site data can erase your chats and projects. Export a JSON backup regularly.</p></div>
+      </section>
+
+      <section id="settingsView" class="view page-view">
+        <div class="page-heading"><p class="eyebrow">MAKE IT YOURS</p><h1>Settings</h1><p>Simple controls first, with advanced options when you need them.</p></div>
+        <div class="settings-tabs"><button class="tab active" data-tab="simple">Simple</button><button class="tab" data-tab="advanced">Advanced</button></div>
+        <div id="simpleSettings" class="settings-panel active">
+          <div class="setting-card"><div class="setting-row"><div><h3>Appearance</h3><p>Follow your device or choose a theme.</p></div><select id="themeSelect"><option value="system">Use device setting</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div>
+          <div class="setting-card"><div class="setting-row"><div><h3>Accent color</h3><p>Choose Buddy’s highlight color.</p></div><select id="accentSelect"><option value="violet">Violet</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option></select></div></div>
+          <div class="setting-card"><div><h3>Optional memory</h3><p>Memory lets Buddy keep short preferences on this device. It is off by default.</p></div><label class="switch"><input id="memoryToggle" type="checkbox"><span class="slider"></span></label><div id="memoryEditorWrap" class="memory-editor hidden"><label for="memoryText">Saved preferences</label><textarea id="memoryText" rows="4" placeholder="Add only details you want Buddy to remember."></textarea><div class="button-row"><button id="saveMemory" class="secondary">Save memory</button><button id="clearMemory" class="danger-ghost">Delete memory</button></div></div></div>
+          <div class="setting-card"><div><h3>Chat behavior</h3><p>Choose how new chats are named and displayed.</p></div><div class="setting-row"><label for="compactMode">Compact messages</label><input id="compactMode" type="checkbox"></div></div>
+        </div>
+        <div id="advancedSettings" class="settings-panel">
+          <div class="setting-card"><h3>AI connection</h3><p><strong>Not connected.</strong> This build does not send your messages to an AI service. To add real AI, connect a provider through a secure backend. Never paste a secret API key into this public browser app.</p><div class="status-pill">● Local demo mode</div></div>
+          <div class="setting-card"><h3>Privacy</h3><p>Chats and projects are stored in browser local storage on this device. Optional memory is separate and disabled by default. This preview has no account login or cloud sync.</p><button id="clearAllBtn" class="danger">Delete all local Buddy data</button></div>
+          <div class="setting-card"><h3>Install Buddy</h3><p>When hosted over HTTPS, use your browser menu and choose “Add to Home screen” or “Install app”. The install option depends on your browser.</p><button id="installBtn" class="secondary" disabled>Install app (if available)</button></div>
+          <div class="setting-card"><h3>About</h3><p>Buddy PWA · First-version prototype · Free-first · Local-only storage</p><p class="muted tiny">This is a starter app, not a connected AI service. Browser features and offline behavior vary by device.</p></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
